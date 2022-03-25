@@ -24,3 +24,6 @@ li {
 .carousel__slide img {
   width: 100%;
 }
+.carousel__btn-disable {
+    display: none;
+}

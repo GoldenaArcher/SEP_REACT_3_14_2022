@@ -70,7 +70,7 @@ const swapImg = (e) => {
   if (target.classList.contains("prev")) {
     moviesRendered = [...moviesRendered];
     const popped = moviesRendered.pop();
-    const idx = (popped.id + moviesRendered.length) % movies.length;
+    const idx = (popped.id + moviesRendered.length + 1) % movies.length;
     moviesRendered.unshift(generateCarouselImg(movies[idx]));
   }
 
@@ -82,6 +82,7 @@ const swapImg = (e) => {
   }
 
   render(carouselListNode, moviesRendered);
+  renderCarouselBtn();
 };
 
 const generateCarouselBtn = (text) => {
@@ -90,15 +91,25 @@ const generateCarouselBtn = (text) => {
   btn.classList.add("carousel__btn");
   btn.addEventListener("click", swapImg);
 
+  if (moviesRendered.length === 0) btn.classList.add("carousel__btn-disable");
+
   return btn;
 };
+
+const compareId = (id1, id2) => id1 * 1 === id2 * 1;
 
 const renderCarouselBtn = () => {
   const imgSectionNodePrev = generateCarouselBtn("&#8656;");
   imgSectionNodePrev.classList.add("prev");
 
+  if (compareId(moviesRendered[0].id, 1))
+    imgSectionNodePrev.classList.add("carousel__btn-disable");
+
   const imgSectionNodeNext = generateCarouselBtn("&#8658;");
   imgSectionNodeNext.classList.add("next");
+
+  if (compareId(moviesRendered[moviesRendered.length - 1].id, movies.length))
+    imgSectionNodeNext.classList.add("carousel__btn-disable");
 
   const el = document.querySelector(DOM_SELECTOR.CAROUSEL_BTN_GROUP);
 
