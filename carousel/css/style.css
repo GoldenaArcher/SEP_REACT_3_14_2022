@@ -1,0 +1,26 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+.carousel {
+  padding: 1em;
+  background-color: pink;
+}
+.carousel__list {
+  display: flex;
+}
+.carousel__slide {
+    margin-right: 2em;
+}
+.carousel__slide:last-child {
+  margin-right: 0;
+}
+.carousel__slide img {
+  width: 100%;
+}
