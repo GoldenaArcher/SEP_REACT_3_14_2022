@@ -5,7 +5,7 @@ const DOM_SELECTOR = {
   CONTAINER_BODY: ".container__body",
 };
 
-const SEARCH_TEXT = "Search Albums by ArtistName:";
+const SEARCH_TEXT = "Search Albums by artist name:";
 
 let albums = {};
 
@@ -27,14 +27,20 @@ const render = (el, data) => {
   el.replaceChildren(data);
 };
 
-const searchArtist = async () => {
+const searchArtist = async (e) => {
+  e.preventDefault();
+  
   const searchInput = document.querySelector(DOM_SELECTOR.SEARCH_INPUT);
 
-  if (searchInput.value) {
+  if (searchInput.value?.trim()) {
+    renderPageBody(true);
     albums = await fetchData(searchInput.value);
-    console.log(albums);
     renderPageBody();
   }
+};
+
+const searchArtistOnPress = (e) => {
+  if (e.keyCode === 13) searchArtist();
 };
 
 const renderPageHeader = () => {
@@ -49,9 +55,10 @@ const renderPageHeader = () => {
     DOM_SELECTOR.SEARCH_INPUT.length
   );
   searchInput.required = true;
+  searchInput.addEventListener("keyup", searchArtistOnPress);
 
   const searchBtn = document.createElement("input");
-  searchBtn.type = "button";
+  searchBtn.type = "submit";
   searchBtn.value = "Search";
   searchBtn.addEventListener("click", searchArtist);
 
@@ -66,6 +73,13 @@ const renderContainerHeader = (headerText = SEARCH_TEXT) => {
   render(el, headerText);
 };
 
+const renderContainerHeaderWithSpinner = () => {
+  const spinner = document.createElement('div');
+  spinner.classList.add('spinner');
+
+  renderContainerHeader(spinner);
+}
+
 const renderSearchText = () => {
   const searchInput = document.querySelector(DOM_SELECTOR.SEARCH_INPUT);
   const DISPLAY_TEXT = `${albums.resultCount} results for ${searchInput.value}:`;
@@ -75,16 +89,16 @@ const renderSearchText = () => {
 
 const renderAlbum = (album) => {
   const albumCard = document.createElement("figure");
-  albumCard.classList.add('album__card');
+  albumCard.classList.add("album__card");
 
-  const albumImg = document.createElement('img');
-  albumImg.classList.add('album__img')
+  const albumImg = document.createElement("img");
+  albumImg.classList.add("album__img");
   albumImg.src = album.artworkUrl100;
   albumImg.alt = album.collectionName;
 
-  const albumCaption = document.createElement('figcaption');
+  const albumCaption = document.createElement("figcaption");
   albumCaption.innerText = album.collectionName;
-  albumCaption.classList.add('album__title')
+  albumCaption.classList.add("album__title");
 
   render(albumCard, [albumImg, albumCaption]);
   return albumCard;
@@ -104,7 +118,7 @@ const renderALbumSearch = () => {
 };
 
 const renderPageBody = (searching = false) => {
-  if (searching) return; // return rendering icon
+  if (searching) return renderContainerHeaderWithSpinner(); // return rendering icon
 
   // initial render
   if (Object.keys(albums).length === 0) return renderContainerHeader();
