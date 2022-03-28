@@ -10,6 +10,12 @@ input:focus {
   outline: none;
 }
 
+.container {
+  max-width: 1280px;
+  width: 80%;
+  margin: 0 auto;
+}
+
 .page__header {
   background-color: lightblue;
   position: sticky;
@@ -18,7 +24,30 @@ input:focus {
   text-align: center;
   z-index: 2;
 }
-
 .container__header {
   text-align: center;
+  font-size: 2em;
+  font-weight: 600;
+  padding: 0.8em;
+  border-bottom: 2px solid black;
+  margin-bottom: 1em;
+}
+.container__body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1em;
+  padding: 0 1em;
+}
+.album__card {
+  padding: 0.5em;
+  border: 1px solid black;
+  border-radius: 0.5em;
+  text-align: center;
+}
+.album__img {
+  width: 100%;
+  margin-bottom: 0.5em;
+}
+.album__title {
+  margin-bottom: 1em;
 }

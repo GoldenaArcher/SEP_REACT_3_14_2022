@@ -75,13 +75,16 @@ const renderSearchText = () => {
 
 const renderAlbum = (album) => {
   const albumCard = document.createElement("figure");
+  albumCard.classList.add('album__card');
 
   const albumImg = document.createElement('img');
+  albumImg.classList.add('album__img')
   albumImg.src = album.artworkUrl100;
   albumImg.alt = album.collectionName;
 
   const albumCaption = document.createElement('figcaption');
   albumCaption.innerText = album.collectionName;
+  albumCaption.classList.add('album__title')
 
   render(albumCard, [albumImg, albumCaption]);
   return albumCard;
