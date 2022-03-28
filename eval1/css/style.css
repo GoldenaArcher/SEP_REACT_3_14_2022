@@ -1,0 +1,24 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+}
+input:focus {
+  outline: none;
+}
+
+.page__header {
+  background-color: lightblue;
+  position: sticky;
+  top: 0;
+  padding: 2em;
+  text-align: center;
+  z-index: 2;
+}
+
+.container__header {
+  text-align: center;
+}
