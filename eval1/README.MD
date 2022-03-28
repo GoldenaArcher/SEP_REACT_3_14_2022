@@ -11,4 +11,4 @@ Checklist
 - [x] Show the number of the results.
 - [x] Nav bar fixed as the page is being scrolled.
 - [x] Responsiveness.
-- [ ] Style the page to the best of the ability to make the UI look clean and presentable
+- [x] Style the page to the best of the ability to make the UI look clean and presentable

@@ -46,7 +46,8 @@ const searchArtistOnPress = (e) => {
 const renderPageHeader = () => {
   const el = document.querySelector(DOM_SELECTOR.PAGE_HEADER);
 
-  const searchForm = document.createElement("form");
+  const searchGroup = document.createElement("div");
+  searchGroup.classList.add("search__group");
 
   const searchInput = document.createElement("input");
   searchInput.type = "text";
@@ -57,14 +58,16 @@ const renderPageHeader = () => {
   searchInput.required = true;
   searchInput.addEventListener("keyup", searchArtistOnPress);
 
-  const searchBtn = document.createElement("input");
+  const searchBtn = document.createElement("button");
   searchBtn.type = "submit";
-  searchBtn.value = "Search";
+  const searchIcon = document.createElement('i');
+  searchIcon.classList.add("fas", "fa-search");
+  render(searchBtn, searchIcon)
   searchBtn.addEventListener("click", searchArtist);
 
-  render(searchForm, [searchInput, searchBtn]);
+  render(searchGroup, [searchInput, searchBtn]);
 
-  render(el, searchForm);
+  render(el, searchGroup);
 };
 
 const renderContainerHeader = (headerText = SEARCH_TEXT) => {

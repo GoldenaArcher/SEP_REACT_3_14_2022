@@ -6,8 +6,23 @@
   box-sizing: border-box;
   position: relative;
 }
+input,
+button {
+  border: none;
+  background-color: inherit;
+}
 input:focus {
   outline: none;
+}
+button:hover {
+  cursor: pointer;
+}
+:root {
+  --bg-dark: #1f2029;
+  --bg-light: #f9f9f9;
+}
+body {
+  background-color: var(--bg-light);
 }
 .container {
   max-width: 1280px;
@@ -16,13 +31,26 @@ input:focus {
 }
 
 .page__header {
-  background-color: lightblue;
+  background-color: var(--bg-dark);
   position: sticky;
   top: 0;
   padding: 2em;
   text-align: center;
   z-index: 2;
 }
+.search__group {
+  margin: 0 auto;
+  padding: 0 0.5em;
+  display: flex;
+  width: 10%;
+  height: 2em;
+  background-color: var(--bg-light);
+  border-radius: 0.4em;
+}
+#search_artist {
+  width: 100%;
+}
+
 .container__header {
   text-align: center;
   font-size: 2em;
