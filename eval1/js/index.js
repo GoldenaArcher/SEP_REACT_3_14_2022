@@ -36,6 +36,8 @@ const searchArtist = async (e) => {
     renderPageBody(true);
     albums = await fetchData(searchInput.value);
     renderPageBody();
+  } else {
+    alert("You must input artist's name to search");
   }
 };
 
