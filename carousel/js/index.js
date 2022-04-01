@@ -21,7 +21,7 @@ const render = (el, data) => {
 };
 
 const generateCarouselImg = (carousel) => {
-  const { id, imgUrl, name, outlineInfo } = carousel;
+  const { id, imgUrl, name, outlineInfo} = carousel;
 
   const listNode = document.createElement("li");
   listNode.id = id;
