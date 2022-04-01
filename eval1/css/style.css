@@ -100,3 +100,16 @@ body {
     -webkit-transform: rotate(360deg);
   }
 }
+.load-more {
+  width: 20em;
+  height: 3em;
+  background-color: var(--bg-dark);
+  color: var(--bg-light);
+  display: block;
+  margin: 0 auto;
+  margin-top: 2em;
+  border-radius: 0.4em;
+}
+.hidden {
+  display: none;
+}

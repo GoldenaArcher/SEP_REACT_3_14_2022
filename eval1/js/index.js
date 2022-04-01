@@ -3,9 +3,13 @@ const DOM_SELECTOR = {
   PAGE_HEADER: ".page__header",
   CONTAINER__HEADER: ".container__header",
   CONTAINER_BODY: ".container__body",
+  LOAD_MORE: ".load-more",
 };
 
 const SEARCH_TEXT = "Search Albums by artist name:";
+
+const LOAD_AMOUNT = 4;
+let counter = 0;
 
 let albums = {};
 
@@ -27,9 +31,29 @@ const render = (el, data) => {
   el.replaceChildren(data);
 };
 
+const handlePermission = (permission) => {
+  if (permission !== "granted") return;
+
+  console.log(permission);
+  console.log("permission granted");
+
+  var notification = new Notification("Hi there!");
+  // const notification = new Notification("New Message From Site", {
+  //   body: "You must input artist's name to search",
+  //   // icon: "icon.png",
+  // });
+};
+
+const showNotification = () => {
+  if (!window.Notification)
+    return alert("You must input artist's name to search");
+
+  Notification.requestPermission().then(handlePermission);
+};
+
 const searchArtist = async (e) => {
   e.preventDefault();
-  
+
   const searchInput = document.querySelector(DOM_SELECTOR.SEARCH_INPUT);
 
   if (searchInput.value?.trim()) {
@@ -37,12 +61,13 @@ const searchArtist = async (e) => {
     albums = await fetchData(searchInput.value);
     renderPageBody();
   } else {
-    alert("You must input artist's name to search");
+    // alert("You must input artist's name to search");
+    showNotification();
   }
 };
 
 const searchArtistOnPress = (e) => {
-  if (e.keyCode === 13) searchArtist();
+  if (e.keyCode === 13) searchArtist(e);
 };
 
 const renderPageHeader = () => {
@@ -62,9 +87,9 @@ const renderPageHeader = () => {
 
   const searchBtn = document.createElement("button");
   searchBtn.type = "submit";
-  const searchIcon = document.createElement('i');
+  const searchIcon = document.createElement("i");
   searchIcon.classList.add("fas", "fa-search");
-  render(searchBtn, searchIcon)
+  render(searchBtn, searchIcon);
   searchBtn.addEventListener("click", searchArtist);
 
   render(searchGroup, [searchInput, searchBtn]);
@@ -79,11 +104,11 @@ const renderContainerHeader = (headerText = SEARCH_TEXT) => {
 };
 
 const renderContainerHeaderWithSpinner = () => {
-  const spinner = document.createElement('div');
-  spinner.classList.add('spinner');
+  const spinner = document.createElement("div");
+  spinner.classList.add("spinner");
 
   renderContainerHeader(spinner);
-}
+};
 
 const renderSearchText = () => {
   const searchInput = document.querySelector(DOM_SELECTOR.SEARCH_INPUT);
@@ -92,8 +117,11 @@ const renderSearchText = () => {
   renderContainerHeader(DISPLAY_TEXT);
 };
 
-const renderAlbum = (album) => {
+const renderAlbum = (album, idx) => {
   const albumCard = document.createElement("figure");
+  if (idx >= counter) {
+    albumCard.classList.add("hidden");
+  }
   albumCard.classList.add("album__card");
 
   const albumImg = document.createElement("img");
@@ -110,7 +138,9 @@ const renderAlbum = (album) => {
 };
 
 const renderSearchAlbum = () => {
-  const data = albums.results.map((album) => renderAlbum(album));
+  counter += LOAD_AMOUNT;
+  renderLoadMoreBtn();
+  const data = albums.results.map((album, idx) => renderAlbum(album, idx));
 
   const el = document.querySelector(DOM_SELECTOR.CONTAINER_BODY);
 
@@ -131,9 +161,34 @@ const renderPageBody = (searching = false) => {
   renderALbumSearch();
 };
 
+const renderLoadMoreBtn = () => {
+  const btn = document.querySelector(DOM_SELECTOR.LOAD_MORE);
+
+  if (counter < albums.resultCount) {
+    btn.classList.remove("hidden");
+  } else {
+    btn.classList.add("hidden");
+  }
+};
+
+const loadMore = () => {
+  if (counter < albums.resultCount) {
+    renderSearchAlbum();
+    renderLoadMoreBtn();
+  }
+};
+
+const mountLoadMore = () => {
+  const btn = document.querySelector(DOM_SELECTOR.LOAD_MORE);
+  renderLoadMoreBtn();
+
+  btn.addEventListener("click", loadMore);
+};
+
 const init = async () => {
   renderPageHeader();
   renderPageBody();
+  mountLoadMore();
 };
 
 init();
